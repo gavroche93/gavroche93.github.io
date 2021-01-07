@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-color-mode="light">
+  <head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet"> 
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;900&display=swap" rel="stylesheet"> 
+
+    <style>
+      .counter {
+        border: 1px solid #ccd;
+        border-radius: 4px;
+        padding: 8px 20px;
+        width: 70%;
+        margin: 2px auto;
+        font-size: 38px;
+        background-color: rgba(200, 23, 19, 0.3);
+        font-family: 'Roboto Slab', serif;
+        font-weight: 400;
+      }
+      h1 {
+        font-family: 'Roboto Slab', serif;
+        font-weight: 900;
+        text-align: center;
+        font-size: 42px;
+      }
+      .counter span {
+        font-weight: bold;
+      }
+    </style>
+    <script>
+const ready = function (cb) {
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", function (e) {
+        cb();
+      })
+    : cb();
+};
+var currentDebt = 0;
+const debtXsec = 4.99;
+
+ready(function() {
+  const debtDay = 431507;
+  var oggi = new Date();
+  var date2 = new Date('12/31/2021');
+  var diffDays = datediff(oggi, date2);  
+  console.info(diffDays);
+  var days = datediff(new Date('01/01/2021'), oggi);
+  getEl('giorni').innerHTML = '-' + diffDays;
+//  var importo = (debtDay * days).toLocaleString();
+//  getEl('debito').innerHTML = importo + ' €';
+
+  currentDebt = datediffSec(new Date('01/01/2021'), oggi)*debtXsec;
+  setInterval(elapsed, 1000);
+});      
+  
+function datediff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24));
+}
+function datediffSec(first, second) {
+    return Math.round((second-first)/1000);
+}
+
+function getEl(id) {
+  return document.getElementById(id);
+}
+
+function elapsed() {
+  currentDebt += debtXsec;
+
+  getEl('secs').innerHTML = currentDebt.toLocaleString() + ' €';
+}
+    </script>
+  </head>
+  <body>
+    <center>
+      <img src="debito-cargill.png" style="height: 300px;"/>
+    </center>
+    <h1>Il debito CARGILL in tempo reale</h1>
+    
+    <div class="counter">
+      GIORNI ALLA RESTITUZIONE DEL PRESTITO: <span id="giorni"></span>
+<!--
+  
+  <br/>
+  DEBITO ACCUMULATO IN TEMPO REALE: <span id="debito"></span>
+-->      
+      <br/><br/>
+      DEBITO ACCUMULATO IN TEMPO REALE: <span id="secs"></span>
+    </div>
+  </body>
+</html>
+
